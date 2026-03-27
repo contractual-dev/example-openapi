@@ -1,0 +1,26 @@
+name: Contract PR Check
+
+on:
+  pull_request:
+    paths:
+      - 'specs/**'
+      - '.contractual/**'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Contractual PR Check
+        uses: contractual-dev/action@v1
+        with:
+          mode: pr-check
+          fail-on-breaking: 'true'
+          auto-changeset: 'true'
+          github-token: ${{ secrets.GITHUB_TOKEN }}

@@ -153,6 +153,10 @@ components:
           type: string
           maxLength: 30
           description: Color of the pet (optional)
+        weight:
+          type: number
+          minimum: 0
+          description: Weight of the pet in kilograms (optional)
         status:
           type: string
           enum:

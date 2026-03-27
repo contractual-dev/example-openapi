@@ -1,0 +1,39 @@
+name: Version Contracts
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.contractual/changesets/**'
+      - '!.contractual/changesets/.gitkeep'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Version Contracts
+        id: version
+        uses: contractual-dev/action@v1
+        with:
+          mode: release
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          create-releases: 'true'
+          tag-prefix: 'contract'
+          attach-specs: 'true'
+
+      - name: Summary
+        if: steps.version.outputs.version-pr-url
+        run: |
+          echo "📦 Version PR: ${{ steps.version.outputs.version-pr-url }}"
+          echo "🏷️  Tags created: ${{ steps.version.outputs.created-tags }}"
+          echo "🚀 Releases: ${{ steps.version.outputs.release-urls }}"
