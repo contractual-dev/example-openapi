@@ -1,0 +1,63 @@
+name: Contract PR Check
+
+on:
+  pull_request:
+    paths:
+      - 'specs/**'
+      - '.contractual/**'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Lint contracts
+        run: npx @contractual/cli@latest lint
+        continue-on-error: false
+
+      - name: Check for breaking changes
+        id: breaking
+        run: |
+          npx @contractual/cli@latest breaking --format json > breaking.json
+          cat breaking.json
+          if jq -e '.hasBreaking == true' breaking.json > /dev/null; then
+            echo "has_breaking=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_breaking=false" >> $GITHUB_OUTPUT
+          fi
+        continue-on-error: true
+
+      - name: Ensure changeset exists
+        run: |
+          # Check if there are any spec changes
+          HAS_CHANGES=$(npx @contractual/cli@latest diff --format json | jq -e '.contracts | to_entries | map(select(.value.changes | length > 0)) | length > 0')
+
+          if [ "$HAS_CHANGES" = "true" ]; then
+            # Check if changeset exists
+            if [ -z "$(find .contractual/changesets -name '*.md' -not -name '.gitkeep' 2>/dev/null)" ]; then
+              echo "::error::Spec changes detected but no changeset found."
+              echo "::error::Run 'npx @contractual/cli changeset' locally to create one."
+              exit 1
+            else
+              echo "✓ Changeset found"
+            fi
+          else
+            echo "No spec changes detected"
+          fi
+
+      - name: Show diff summary
+        if: always()
+        run: npx @contractual/cli@latest diff

@@ -1,0 +1,7 @@
+contracts:
+  - name: petstore
+    type: openapi
+    path: specs/petstore.openapi.yaml
+changeset:
+  autoDetect: true
+  requireOnPR: true
