@@ -102,15 +102,31 @@ When you open a PR with spec changes:
 
 If breaking changes are detected or no changeset exists, the check fails.
 
-### Release Workflow
+### Release Workflow (Automated)
 
-When a PR with changesets is merged to `main`:
+The release workflow uses the **Changesets pattern** with two phases:
 
-1. **Consume Changesets**: Reads all pending changesets
-2. **Bump Versions**: Applies semantic version bumps
-3. **Update Changelog**: Appends changes to `CHANGELOG.md`
-4. **Snapshot Spec**: Copies current spec to `.contractual/snapshots/`
-5. **Commit & Push**: Commits changes back to main
+#### **Phase 1: Version PR Creation**
+When changesets are merged to `main`:
+
+1. **Detect Changesets**: Checks if changesets exist in `.contractual/changesets/`
+2. **Create Version PR**: Opens/updates a PR named "Version Contracts" that:
+   - Runs `contractual version` to bump versions
+   - Updates `CHANGELOG.md` with changes
+   - Updates snapshots in `.contractual/snapshots/`
+   - Removes consumed changesets
+3. **PR Review**: Team reviews the version bumps before release
+
+#### **Phase 2: Release Creation**
+When the Version PR is merged to `main`:
+
+1. **Detect Version Bump**: Checks if `versions.json` changed
+2. **Create Git Tags**: Tags like `petstore@1.1.0` for each versioned contract
+3. **Create GitHub Releases**: One release per contract with:
+   - Changelog excerpt for that contract
+   - Attached OpenAPI spec file from snapshots
+   - Release notes with breaking change warnings
+4. **Publish**: (Optional, Phase 3) Publish to package registries
 
 ---
 
