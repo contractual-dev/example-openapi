@@ -20,7 +20,7 @@ jobs:
 
       - name: Release Contracts
         id: release
-        uses: contractual-dev/action@v1
+        uses: contractual-dev/action@v0.1.0-dev.3
         with:
           mode: release
           github-token: ${{ secrets.GITHUB_TOKEN }}

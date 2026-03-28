@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run Contractual PR Check
-        uses: contractual-dev/action@v1
+        uses: contractual-dev/action@v0.1.0-dev.3
         with:
           mode: pr-check
           fail-on-breaking: 'true'
