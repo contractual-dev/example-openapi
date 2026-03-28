@@ -24,4 +24,3 @@ jobs:
           fail-on-breaking: 'true'
           auto-changeset: 'true'
           github-token: ${{ secrets.GITHUB_TOKEN }}
-# Test workflow
