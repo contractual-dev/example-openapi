@@ -140,6 +140,10 @@ components:
           type: number
           minimum: 0
           description: Weight of the pet in kilograms (optional)
+        microchipId:
+          type: string
+          pattern: '^[0-9]{15}$'
+          description: 15-digit microchip ID (optional)
         status:
           type: string
           enum:
