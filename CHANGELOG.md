@@ -1,5 +1,9 @@
 # Changelog
 
+## [petstore] v2.0.0 - 2026-03-28
+
+- **[BREAKING]** remove path at paths./pets/{petId}
+
 ## [petstore] v1.1.0 - 2026-03-28
 
 - **[minor]** remove response body scope at paths./pets.get.responses.200.content.application/json.schema
