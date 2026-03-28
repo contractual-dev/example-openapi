@@ -23,7 +23,7 @@ jobs:
         uses: contractual-dev/action@v0.1.0-dev.3
         with:
           mode: release
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.PAT }}
           create-releases: 'true'
           tag-prefix: 'contract'
           attach-specs: 'true'
