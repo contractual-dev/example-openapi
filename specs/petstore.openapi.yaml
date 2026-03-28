@@ -3,13 +3,19 @@ info:
   title: Petstore API
   description: A simple API for managing a pet store
   version: 1.0.0
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
   contact:
     name: API Support
     email: support@petstore.example.com
 
 servers:
-  - url: https://api.petstore.example.com/v1
+  - url: https://api.petstore.io/v1
     description: Production server
+
+security:
+  - ApiKeyAuth: []
 
 paths:
   /pets:
@@ -38,6 +44,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Pet'
+        '400':
+          description: Invalid request parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         '500':
           description: Internal server error
           content:
@@ -80,6 +92,12 @@ paths:
 
 
 components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+
   schemas:
     Pet:
       type: object
