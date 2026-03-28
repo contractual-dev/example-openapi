@@ -1,5 +1,9 @@
 # Changelog
 
+## [petstore] v2.1.0 - 2026-03-28
+
+- **[minor]** add optional microchipId field to Pet schema for tracking pet microchips
+
 ## [petstore] v2.0.0 - 2026-03-28
 
 - **[BREAKING]** remove path at paths./pets/{petId}
