@@ -1,5 +1,9 @@
 # Changelog
 
+## [petstore] v2.2.0 - 2026-03-29
+
+- **[minor]** add optional vaccinated field to track pet vaccination status
+
 ## [petstore] v2.1.0 - 2026-03-28
 
 - **[minor]** add optional microchipId field to Pet schema for tracking pet microchips
